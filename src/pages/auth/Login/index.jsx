@@ -8,6 +8,7 @@ import logo from "../../../assets/logo.png";
 import "../../../App.css"
 import OrbitingText from "../../../components/OrbitingText";
 
+
 const Login = () => {
   const images = [
     "https://via.placeholder.com/800x400/FF0000/FFFFFF?text=Slide+1",
