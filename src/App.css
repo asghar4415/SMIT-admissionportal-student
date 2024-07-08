@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Arsenal+SC:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+
+
+@layer utilities {
+  .transition-all {
+    transition: all 0.3s ease-in-out;
+  }
+  .fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+}
+
+.bluebg{
+  background: linear-gradient(229deg,var(--token-39ed30df-f08c-4c2a-b881-aa50b3d6b65f, #3792ed) 0%,var(--token-ce00d43c-2540-49b7-a925-1055ee2cdc7d, rgb(0, 17, 207)) 53.60360360360361%);
+/*   
+background: rgb(49,40,214);
+background: linear-gradient(90deg, rgba(49,40,214,1) 43%, rgba(105,105,226,1) 100%, rgba(0,255,102,1) 100%); */
+}
+
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.arsenal-sc-regular {
+  font-family: "Arsenal SC", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.arsenal-sc-bold {
+  font-family: "Arsenal SC", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.arsenal-sc-regular-italic {
+  font-family: "Arsenal SC", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.arsenal-sc-bold-italic {
+  font-family: "Arsenal SC", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+
+.login-logo
+{
+  width: 10rem;
+  margin: 0 auto;
+  display: block;
+}
+
+.login-button-bottom
+{
+  /* margin-top: 1rem; */
+  /* border: 1px solid black; */
+  width: 80%;
+  display: flex;
+  margin-left: 3.5rem;
+  justify-content: space-between;
+}
+.signup-button-bottom
+{
+  font-family: "Arsenal SC";
+  width: 100%;
+  display: flex;
+}
+
+.forgot-1
+{
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.forgot-1:hover{
+  
+  color: #3792ed;
+
+}
+.signup-1
+{
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.signup-1:hover{
+  
+  color: #3792ed;
+
+}
+
+@media (max-width: 568px) {
+  .login-button-bottom
+  {
+    margin-left: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+}
