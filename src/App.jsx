@@ -7,7 +7,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import AuthRoute from './routes/authRoutes';
 import ProtectedRoute from './routes/ProtectedRoutes';
 import Dashboard from './pages/Dashboard';
-import Navbar from './components/Navbar';
 import OtpVerifyPage from './pages/auth/OtpVerify';
 import UpdateProfile from './pages/Dashboard/updateProfile'; // Import the UpdateProfile component
 import CourseEnrollment from './pages/Dashboard/courseEnrollment'; // Import the CourseEnrollment component
@@ -17,8 +16,6 @@ function App() {
   return (
     <>
       <ToastContainer />
-      {/* <NavbarDefault/> */}
-      {/* <Navbar/> */}
 
       <Routes>
         <Route element={<AuthRoute />}>

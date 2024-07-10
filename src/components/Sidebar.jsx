@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import ProfilePic from "../../public/img/profilepic.avif";
+import ProfilePic from "/img/profile.jpg";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { SiGoogledocs } from "react-icons/si";
 import { IoIosNotifications } from "react-icons/io";
 import { FaUserEdit } from "react-icons/fa";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import "./sidebar.css";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,7 +17,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="md:flex md:flex-col md:w-1/4 bg-white p-4 rounded-lg shadow-md">
+    <div className="md:flex md:flex-col md:w-1/6 bg-white p-4 rounded-lg shadow-md sidebar-separation">
       {/* Mobile and Tablet Sidebar Toggle Button */}
       <button
         className="md:hidden p-2 focus:outline-none"
@@ -40,7 +43,7 @@ const Sidebar = () => {
       <div
         className={`${
           isOpen ? 'block' : 'hidden'
-        } md:block md:flex md:flex-col md:w-full`}
+        } md:block md:flex md:flex-col md:w-full `}
       >
         <div className="flex flex-row items-center justify-left">
             <div>
@@ -51,70 +54,104 @@ const Sidebar = () => {
             />
             </div>
             <div className='flex flex-col items-left gap-y-0 justify-left ml-4'> 
-            <h2 className="text-md font-semibold">Abdullah Shafiq</h2>
-            <p className="text-sm text-gray-600">any Description</p>
+            <h2 className="text-md font-semibold  "
+            style={
+              {
+                fontFamily: "Plus Jakarta Sans",
+              }
+            }>Abdullah Shafiq</h2>
+            {/* <p className="text-sm text-gray-600">any Description</p> */}
             </div>
         </div>
         <div className="mt-4">
-          <ul>
-            <li>
+          <ul className=' sidebar-content'>
+            <li className='mt-4 '>
               <NavLink
                 to="/"
                 className={({ isActive }) =>
                   isActive
-                    ? 'flex items-center p-2 bg-gray-300 rounded cursor-pointer'
-                    : 'flex items-center p-2 hover:bg-gray-100 rounded cursor-pointer'
+                    ? 'flex items-center p-3 bg-gray-300 rounded cursor-pointer'
+                    : 'flex items-center p-3 hover:bg-gray-100 rounded cursor-pointer'
                 }
               >
-                <LuLayoutDashboard className="mr-2" />
-                <span>Dashboard</span>
-                <span className="ml-auto bg-gray-300 text-gray-700 text-sm rounded-full w-6 h-6 flex items-center justify-center">0</span>
+                <LuLayoutDashboard className="mr-2 " />
+                <span style={
+                  {
+                    fontFamily: "Plus Jakarta Sans",
+                    fontSize: ".9rem",
+                  }
+                }>Dashboard</span>
+                {/* <span className="ml-auto bg-gray-300 text-gray-700 text-sm rounded-full w-6 h-6 flex items-center justify-center">0</span> */}
               </NavLink>
             </li>
-            <li>
+            <li >
               <NavLink
                 to="/updateProfile"
                 className={({ isActive }) =>
                   isActive
-                    ? 'flex items-center p-2 bg-gray-300 rounded cursor-pointer'
-                    : 'flex items-center p-2 hover:bg-gray-100 rounded cursor-pointer'
+                    ? 'flex items-center p-3 bg-gray-300 rounded cursor-pointer'
+                    : 'flex items-center p-3 hover:bg-gray-100 rounded cursor-pointer'
                 }
               >
                 <FaUserEdit className="mr-2" />
-                <span>Update Profile</span>
-                <span className="ml-auto bg-gray-300 text-gray-700 text-sm rounded-full w-6 h-6 flex items-center justify-center">2</span>
+                <span 
+                style={
+                  {
+                    fontFamily: "Plus Jakarta Sans",
+                    fontSize: ".9rem",
+                  }
+                }
+                >Update Profile</span>
+                {/* <span className="ml-auto bg-gray-300 text-gray-700 text-sm rounded-full w-6 h-6 flex items-center justify-center">2</span> */}
               </NavLink>
             </li>
-            <li>
+            <li >
               <NavLink
                 to="/courseEnrollment"
                 className={({ isActive }) =>
                   isActive
-                    ? 'flex items-center p-2 bg-gray-300 rounded cursor-pointer'
-                    : 'flex items-center p-2 hover:bg-gray-100 rounded cursor-pointer'
+                    ? 'flex items-center p-3 bg-gray-300 rounded cursor-pointer'
+                    : 'flex items-center p-3 hover:bg-gray-100 rounded cursor-pointer'
                 }
               >
                 <SiGoogledocs className="mr-2" />
-                <span>Course Enrollment</span>
-                <span className="ml-auto bg-gray-300 text-gray-700 text-sm rounded-full w-6 h-6 flex items-center justify-center">5</span>
+                <span
+                style={
+                  {
+                    fontFamily: "Plus Jakarta Sans",
+                    fontSize: ".9rem",
+                  }
+                }>Course Enrollment</span>
+                {/* <span className="ml-auto bg-gray-300 text-gray-700 text-sm rounded-full w-6 h-6 flex items-center justify-center">5</span> */}
               </NavLink>
             </li>
-            <li>
+            <li >
               <NavLink
                 to="/notificationPanel"
                 className={({ isActive }) =>
                   isActive
-                    ? 'flex items-center p-2 bg-gray-300 rounded cursor-pointer'
-                    : 'flex items-center p-2 hover:bg-gray-100 rounded cursor-pointer'
+                    ? 'flex items-center p-3 bg-gray-300 rounded cursor-pointer'
+                    : 'flex items-center p-3 hover:bg-gray-100 rounded cursor-pointer'
                 }
               >
                 <IoIosNotifications className="mr-2" />
-                <span>Notification Panel</span>
-                <span className="ml-auto bg-gray-300 text-gray-700 text-sm rounded-full w-6 h-6 flex items-center justify-center">0</span>
+                <span
+                style={
+                  {
+                    fontFamily: "Plus Jakarta Sans",
+                    fontSize: ".9rem",
+                  }
+                }>Notification Panel</span>
+                {/* <span className="ml-auto bg-gray-300 text-gray-700 text-sm rounded-full w-6 h-6 flex items-center justify-center">0</span> */}
               </NavLink>
             </li>
           </ul>
         </div>
+      </div>
+      <div className="logout-button">
+        Logout 
+        <span><FontAwesomeIcon icon={faChevronRight} /></span>
+
       </div>
     </div>
   );

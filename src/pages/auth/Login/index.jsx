@@ -131,7 +131,7 @@ const Login = () => {
       <div className="xl:p-[1rem] md:p-[5rem] lg:p-10 w-[90%] md:w-[70%] lg:w-[65%] xl:w-[40%] ">
         <div className="text-center mb-4 ">
           <h1 className="text-3xl font-semibold login-logo">
-            <img src="../../../../public/img/bg-removed.png" alt="" />
+            <img src="/img/bg-removed.png" alt="" />
           </h1>
           <p className="text-[1rem]"
           style={{
