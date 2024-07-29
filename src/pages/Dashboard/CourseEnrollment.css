@@ -1,0 +1,16 @@
+.blink_me {
+    animation: blinker 2s linear infinite;
+    width: 9px;
+    height: 9px;
+    display: inline-block;
+    background-color: green;
+    border-radius: 50%;
+    margin-right: 4px;
+  }
+  
+  @keyframes blinker {
+    50% {
+      opacity: 0.5;
+    }
+  }
+  
