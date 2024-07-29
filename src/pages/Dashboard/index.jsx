@@ -2,7 +2,7 @@ import React from "react";
 import Sidebar from "../../components/Sidebar";
 import ProfilePic from "/img/profile.jpg";
 import "./dashboard.css";
-import "../../components/sidebar.css"
+import "../../components/sidebar.css" 
 
 const Dashboard = () => {
   return (
@@ -133,8 +133,7 @@ const Dashboard = () => {
                   <td className="px-4 py-4 text-sm plus-jakarta-sans text-left">Web and App</td>
                   <td className="px-4 py-4 text-sm plus-jakarta-sans text-left">12th July 2024</td>
                   <td className="px-4 py-4 text-sm plus-jakarta-sans text-left">3rd Jan 2024</td>
-                  <td className="px-4 py-4 text-sm plus-jakarta-sans text-left  text-orange-500">
-                  <span class="blink_me"></span> &nbsp; Pending</td>
+                  <td className="px-4 py-4 text-sm plus-jakarta-sans text-left  text-orange-500"><span class="blink_me"></span> &nbsp; Pending</td>
                   <td className="px-4 py-4 text-sm plus-jakarta-sans text-left text-orange-500"><span class="blink_me"></span> &nbsp; Pending</td>
                   <td className="px-4 py-4 text-sm plus-jakarta-sans text-left text-orange-500"><span class="blink_me"></span> &nbsp; Pending</td>
                 </tr>

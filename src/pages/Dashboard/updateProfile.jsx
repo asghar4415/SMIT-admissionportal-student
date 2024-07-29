@@ -1,14 +1,17 @@
 import React from 'react';
 import Sidebar from '../../components/Sidebar';
-import ProfilePic from "/img/profile.jpg"; // Replace with the actual image source
+import ProfilePic from "/img/profile.jpg";
+import "../../components/sidebar.css"
+import "./style1.css"
+
 
 const UpdateProfile = () => {
   return (
-    <div className="flex flex-col md:flex-row bg-gray-100 min-h-screen p-4">
+    <div className="flex flex-col md:flex-row bg-gray-100 min-h-screen p-2">
       <Sidebar />
-      <div className="flex-1 bg-white p-8 rounded-lg shadow-md ml-0 md:ml-4 mt-4 md:mt-0">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 items-start">
-          <div className="md:col-span-1 flex justify-center items-center md:justify-start">
+      <div className="flex-1 bg-white p-2 rounded-lg shadow-md ml-0 md:ml-4 mt-4 md:mt-0">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6 mt-7 ">
+          <div className="md:col-span-1 flex justify-center items-center md:justify-start checkkk">
             <img
               className="rounded-full md:w-52 md:h-52 w-32 h-32"
               src={ProfilePic} 
