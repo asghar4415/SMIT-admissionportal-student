@@ -39,7 +39,7 @@ const UpdateProfile = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Student CNIC Number</label>
+            <label className="block text-sm font-medium text-gray-700">CNIC Number</label>
             <input
               type="text"
               className="mt-1 p-2 w-full border border-gray-300 rounded-md"
@@ -47,7 +47,7 @@ const UpdateProfile = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Student Phone/Whatsapp Number</label>
+            <label className="block text-sm font-medium text-gray-700">Phone Number</label>
             <input
               type="text"
               className="mt-1 p-2 w-full border border-gray-300 rounded-md"
@@ -91,13 +91,11 @@ const UpdateProfile = () => {
               className="mt-1 p-2 w-full border border-gray-300 rounded-md"
             >
               <option>Select Your Region</option>
-              <option>Punjab</option>
-              <option>Sindh</option>
-              <option>Khyber Pakhtunkhwa</option>
-              <option>Balochistan</option>
-              <option>Gilgit-Baltistan</option>
-              <option>Azad Jammu and Kashmir</option>
-              <option>Islamabad Capital Territory</option>
+              <option>Karachi</option>
+
+              <option>Hyderabad</option>
+              <option>Islamabad</option>
+              <option>Lahore</option>
             </select>
           </div>
         </div>
@@ -105,6 +103,11 @@ const UpdateProfile = () => {
           <button
             type="submit"
             className="bg-blue-600 text-white py-2 px-4 w-full rounded-md hover:bg-blue-700"
+            onClick={ () =>
+              {
+                console.log("profile updated")
+              }
+            }
           >
             Submit
           </button>
