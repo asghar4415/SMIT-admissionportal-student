@@ -41,7 +41,6 @@ const OtpVerifyPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log("hit howe api",email,otp)
       const response = await axios.post(
         `${apiUrl}/api/verifyotp`,
         { id: email, otp },
@@ -73,7 +72,6 @@ const OtpVerifyPage = () => {
           },
         }
       );
-      console.log("response",resp)
 
       setMessage('OTP has been resent to your email.');
       setStatus('success');

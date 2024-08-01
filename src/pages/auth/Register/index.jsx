@@ -26,9 +26,7 @@ const Register = () => {
     cnic: "",
   });
 
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
+ 
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -133,7 +131,6 @@ const Register = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log("submit howa");
 
     if (!formData.name) {
       alert("Please enter your name.");
@@ -166,7 +163,6 @@ const Register = () => {
         `${apiUrl}/api/auth/register`,
         formData
       );
-      console.log(registerRsp);
       toast.success(`User Created. Now Login`, {
         position: "top-right",
         autoClose: 5000,

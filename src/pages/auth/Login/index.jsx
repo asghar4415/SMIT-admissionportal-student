@@ -1,10 +1,9 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Bounce, toast } from "react-toastify";
 import Slider from "../../../components/Slider";
 const apiUrl = import.meta.env.VITE_API_URL;
-import logo from "../../../assets/logo.png";
 import "../../../App.css"
 import OrbitingText from "../../../components/OrbitingText";
 
@@ -25,9 +24,6 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
 
   const submitHandler = async (e) => {
     e.preventDefault();

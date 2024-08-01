@@ -1,10 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar";
 import ProfilePic from "/img/profile.jpg";
 import "./dashboard.css";
 import "../../components/sidebar.css" 
+import axios from "axios";
+import { useSelector } from "react-redux";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const Dashboard = () => {
+  const { email } = useSelector((state) => state.userReducer);
+  const [stdDetails,setStdDetails] = useState({
+    name:null,
+    img:null,
+    marks:null,
+    result:false,
+    cnic:null,
+    admissionStatus:"Pending",
+    phoneNo:null,
+  })
+
+  useEffect(()=>{
+    console.log(stdDetails)
+  },[stdDetails])
+  useEffect(()=>{
+    console.log(email)
+    const getEnrolledCourses = async()=>{
+      const resp =await axios.get(`${apiUrl}/getUserData/${email}`)
+      console.log("resp",resp.data)
+console.log(resp.data.img[0])
+
+      setStdDetails({
+        ...stdDetails,
+        name: resp.data.fullName,
+        img: resp.data.img[0],
+        marks: resp.data.marks,
+        result: resp.data.result,
+        admissionStatus: resp.data.admissionStatus,
+        cnic:resp.data.cnic,
+        phoneNo:resp.data.phone,
+        region:resp.data.city
+      });
+    }
+    getEnrolledCourses()
+
+  },[])
   return (
     <div className="flex flex-col md:flex-row bg-gray-100 min-h-screen p-2">
       <Sidebar />
@@ -12,19 +51,19 @@ const Dashboard = () => {
       <div className="flex-1 bg-white p-2 rounded-lg shadow-md ml-0 md:ml-4 mt-4 md:mt-0">
         <div className="flex flex-col md:flex-row items-center bg-[#005EC4] text-white p-4 rounded-lg md:gap-[2rem]">
           <img
-            src={ProfilePic}
+            src={stdDetails.img || ProfilePic}
             alt="Profile"
             className="w-40 h-40 rounded-full object-cover border-none md:ml-4"
           />
           <div className="md:ml-4 mt-4 md:mt-0 text-center md:text-left flex flex-col gap-y-1 justify-left items-left plus-jakarta-sans"
       
           >
-            <h2  className="text-3xl font-bold plus-jakarta-sans md:mb-3"
-            >Abdullah Shafiq</h2>
-            <p className="font-semibold text-sm plus-jakarta-sans">Email: abdullah@gmail.com</p>
-            <p className="font-semibold text-sm plus-jakarta-sans">CNIC: 4222166578541</p>
-            <p className="font-semibold text-sm plus-jakarta-sans">Phone: 0321-12345678</p>
-            <p className="font-semibold text-sm plus-jakarta-sans">Region: Sindh</p>
+            <h2  className="text-3xl font-bold plus-jakarta-sans md:mb-3 capitalize"
+            >{stdDetails.name}</h2>
+            <p className="font-semibold text-sm plus-jakarta-sans">Email: {email}</p>
+            <p className="font-semibold text-sm plus-jakarta-sans">CNIC: {stdDetails.cnic}</p>
+            <p className="font-semibold text-sm plus-jakarta-sans">Phone:{stdDetails.phoneNo || "-"}</p>
+            <p className="font-semibold text-sm plus-jakarta-sans">Region: {stdDetails.region || "-"}</p>
             <button className="md:mt-2 bg-white text-black px-28 py-2 rounded-lg font-bold plus-jakarta-sans">
               Edit
               {/* when click on this button it will take you to the update profile page */}
