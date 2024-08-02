@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import ProfilePic from "/img/profile.jpg";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { SiGoogledocs } from "react-icons/si";
@@ -11,10 +11,15 @@ import "./sidebar.css";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const navigate = useNavigate()
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
+
+  const removeToken = ()=>{
+    localStorage.removeItem("token")
+    navigate("/auth/login")
+  }
 
   return (
     <div className="md:flex md:flex-col md:w-1/6 bg-white p-4 rounded-lg shadow-md sidebar-separation">
@@ -148,7 +153,7 @@ const Sidebar = () => {
           </ul>
         </div>
       </div>
-      <div className="logout-button">
+      <div className="logout-button" onClick={()=>removeToken()}>
         Logout 
         <span><FontAwesomeIcon icon={faChevronRight} /></span>
 

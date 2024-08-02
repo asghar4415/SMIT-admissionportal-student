@@ -10,11 +10,9 @@ const AuthRoute = () => {
   const dispatch =useDispatch()
   const {loading,verified}=useSelector((state)=>state.userReducer)
   const pageNav =()=>{
-    console.log(isVerified)
     if(isVerified){
       dispatch(setLoading(true))
       dispatch(isVerified(true))
-      console.log("mae chala")
       navigate("/")
 
     }
@@ -26,7 +24,6 @@ const AuthRoute = () => {
       const token =localStorage.getItem("token");
       if(token){
         const verifyUser =async()=>{
-          console.log("verified api hit auth",)
          const isverified= await axios.get(`${apiUrl}/api/auth/verify`, {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -34,7 +31,6 @@ const AuthRoute = () => {
             
           });
         console.log(isverified)
-        console.log("ahaha",isverified?.data?.status,isverified?.data?.email)
         if(localStorage.getItem("token")){
           console.log("mae andr hon auth")
           if(isverified?.data?.status===false && isverified?.data?.email){
@@ -48,7 +44,6 @@ const AuthRoute = () => {
         dispatch(setLoading(false));
         dispatch(isVerified(true));
         pageNav()
-        console.log(verifyUser)
         
        
       }
@@ -64,10 +59,7 @@ const AuthRoute = () => {
     dispatch(setLoading(false))
   }
 
-  useEffect(()=>{
-    console.log("let",loading,"Verified",verified)
 
-  },[verified,loading])
   return loading?(<div className='h-screen flex justify-center items-center'>loading...</div>):(verified?("already logged in"):<Outlet/>)
 }
 
