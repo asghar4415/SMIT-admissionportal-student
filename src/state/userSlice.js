@@ -12,16 +12,16 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     updateEmail: (state, action) => {
-      console.log("main", state, action);
+      // console.log("main", state, action);
       state.email = action.payload;
     },
     setLoading: (state, action) => {
-      console.log("mae", state);
-      console.log(action);
+      // console.log("mae", state);
+      // console.log(action);
       state.loading = action.payload;
     },
     isVerified: (state, action) => {
-      console.log("let redux", action.payload);
+      // console.log("let redux", action.payload);
       state.verified = action.payload;
     },
     updateCnic: (state, action) => {

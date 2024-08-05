@@ -18,7 +18,7 @@ const Login = () => {
 
   const [loadingApi, setLoadingApi] = useState(false);
   const [formData, setFormData] = useState({
-    email: "",
+    cnic: "",
     password: "",
   });
 
@@ -27,10 +27,11 @@ const Login = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const { email, password } = formData;
+    const { cnic, password } = formData;
+    // console.log(formData);
 
-    if (!email || !password) {
-      toast.error("Email and password cannot be empty", {
+    if (!cnic || !password) {
+      toast.error("CNIC and password cannot be empty", {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -60,9 +61,9 @@ const Login = () => {
         transition: Bounce,
       });
       navigate("/");
-      console.log(loginRsp);
+      // console.log(loginRsp);
     } catch (err) {
-      toast.error("Either email or password is incorrect", {
+      toast.error("Either CNIC or password is incorrect", {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -148,8 +149,8 @@ const Login = () => {
             </label>
             <input
               type="text"
-              id="username"
-              name="username"
+              id="cnic"
+              name="cnic"
               placeholder="XXXXX-XXXXXXX-X"
               className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
               disabled={loadingApi}
@@ -158,9 +159,10 @@ const Login = () => {
               
               }}
               onChange={(e) => {
+                // console.log(e.target.value);
                 setFormData((prev) => ({
                   ...prev,
-                  email: e.target.value,
+                  cnic: e.target.value,
                 }));
               }}
             />
@@ -186,6 +188,7 @@ const Login = () => {
               }}
               placeholder="Enter Your Password"
               onChange={(e) => {
+                // console.log(e.target.value);
                 setFormData((prev) => ({
                   ...prev,
                   password: e.target.value,
