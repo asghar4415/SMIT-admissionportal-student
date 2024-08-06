@@ -6,11 +6,15 @@ import "../../components/sidebar.css"
 import axios from "axios";
 import { useSelector } from "react-redux";
 const apiUrl = import.meta.env.VITE_API_URL;
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
 
 
   const { cnic } = useSelector((state) => state.userReducer);
+  const token = localStorage.getItem("token");
+
   
   const [stdDetails,setStdDetails] = useState({
     name:null,
@@ -25,11 +29,12 @@ const Dashboard = () => {
 
   
   useEffect(()=>{
-    // console.log(email)
+
+    const cnic = JSON.parse(atob(token.split(".")[1])).cnic;
+
     const getUserData = async()=>{
 const resp =await axios.get(`${apiUrl}/getUserData/${cnic}`)
-      // console.log("resp",resp.data)
-// console.log(resp.data.img[0])
+    
 
 setStdDetails({
         ...stdDetails,
@@ -47,9 +52,9 @@ setStdDetails({
     getUserData()
 
   },[])
-  useEffect(()=>{
-    console.log(stdDetails)
-  },[stdDetails])
+  // useEffect(()=>{
+  //   console.log(stdDetails)
+  // },[stdDetails])
 
   return (
     <div className="flex flex-col md:flex-row bg-gray-100 min-h-screen p-2">
@@ -69,10 +74,13 @@ setStdDetails({
             <h2  className="text-3xl font-bold plus-jakarta-sans md:mb-3 capitalize"
             >{stdDetails.name}</h2>
             <p className="font-semibold text-sm plus-jakarta-sans">Email: {stdDetails.email}</p>
-            <p className="font-semibold text-sm plus-jakarta-sans">CNIC: {cnic}</p>
+            <p className="font-semibold text-sm plus-jakarta-sans">CNIC: {stdDetails.cnic}</p>
             <p className="font-semibold text-sm plus-jakarta-sans">Phone:{stdDetails.phoneNo || "-"}</p>
             <p className="font-semibold text-sm plus-jakarta-sans">Region: {stdDetails.region || "-"}</p>
-            <button className="md:mt-2 bg-white text-black px-28 py-2 rounded-lg font-bold plus-jakarta-sans">
+            <button className="md:mt-2 bg-white text-black px-28 py-2 rounded-lg font-bold plus-jakarta-sans" onClick={
+              () =>
+                navigate("/updateProfile")
+            }>
               Edit
               {/* when click on this button it will take you to the update profile page */}
             </button>

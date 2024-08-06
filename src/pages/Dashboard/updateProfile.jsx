@@ -30,12 +30,14 @@ const qualificationOptions = [
 
 const UpdateProfile = () => {
   const dispatch = useDispatch();
-  const { email } = useSelector((state) => state.userReducer);
+  // const { email } = useSelector((state) => state.userReducer);
+  const token = localStorage.getItem("token");
+  const cnic = JSON.parse(atob(token.split(".")[1])).cnic;
   const [stdDetails, setStdDetails] = useState({
     fullName: "",
     fatherName: "",
-    cnic: "",
-    email: email,
+    cnic: cnic,
+    email: "",
     password: "",
     city: "",
     phone: "",
@@ -58,12 +60,12 @@ const UpdateProfile = () => {
   useEffect(() => {
     const getUserData = async () => {
       try {
-        const resp = await axios.get(`${apiUrl}/getUserData/${email}`);
+        const resp = await axios.get(`${apiUrl}/getUserData/${cnic}`);
         setStdDetails({
           fullName: resp.data.fullName || "",
           fatherName: resp.data.fatherName || "",
           cnic: resp.data.cnic || "",
-          email: resp.data.email || email,
+          email: resp.data.email || "",
           password: resp.data.password || "",
           city: resp.data.city || "",
           phone: resp.data.phone || "",
@@ -80,7 +82,7 @@ const UpdateProfile = () => {
       }
     };
     getUserData();
-  }, [email]);
+  }, [cnic]);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -202,7 +204,7 @@ const UpdateProfile = () => {
                 />
               ) : (
                 <img
-                  src={imageUrl || stdDetails.img }
+                  src={imageUrl || stdDetails.img || ProfilePic }
                   alt="Profile"
                   className="rounded-full md:w-52 md:h-52 w-32 h-32"
                   onClick={() => fileInputRef.current.click()}
@@ -211,7 +213,7 @@ const UpdateProfile = () => {
               {editingImage && (
                 <>
                   <div className="absolute bottom-2 right-2 bg-gray-200 rounded-full p-2 cursor-pointer" onClick={saveCroppedImage}>
-                    <span role="img" aria-label="save">💾</span>
+                    <span role="img" aria-label="save">💾 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;</span>
                   </div>
                   <div className="absolute top-2 right-2 bg-gray-200 rounded-full p-2 cursor-pointer" onClick={closeEditing}>
                     <span role="img" aria-label="close">❌</span>
@@ -250,7 +252,7 @@ const UpdateProfile = () => {
               <input
                 type="text"
                 name="fullName"
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                className="mt-1 p-2 w-full border border-gray-300 rounded-md text-gray-600"
                 value={stdDetails.fullName}
                 onChange={handleInputChange}
               />
@@ -260,7 +262,7 @@ const UpdateProfile = () => {
               <input
                 type="text"
                 name="fatherName"
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                className="mt-1 p-2 w-full border border-gray-300 rounded-md text-gray-600"
                 value={stdDetails.fatherName}
                 onChange={handleInputChange}
               />
@@ -273,7 +275,7 @@ const UpdateProfile = () => {
             <input
               type="text"
               name="cnic"
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md text-gray-600"
               value={stdDetails.cnic}
               onChange={handleInputChange}
             />
@@ -283,7 +285,7 @@ const UpdateProfile = () => {
             <input
               type="text"
               name="phone"
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md text-gray-600"
               value={stdDetails.phone}
               onChange={handleInputChange}
             />
@@ -293,7 +295,7 @@ const UpdateProfile = () => {
             <input
               type="email"
               name="email"
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md text-gray-600"
               value={stdDetails.email}
               onChange={handleInputChange}
               disabled
@@ -304,7 +306,7 @@ const UpdateProfile = () => {
             <input
               type="date"
               name="date_of_birth"
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md text-gray-600"
               value={stdDetails.date_of_birth}
               onChange={handleInputChange}
             />
@@ -313,7 +315,7 @@ const UpdateProfile = () => {
             <label className="block text-sm font-medium text-gray-700">Gender</label>
             <select
               name="gender"
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md text-gray-600"
               value={stdDetails.gender}
               onChange={handleInputChange}
             >
@@ -328,7 +330,7 @@ const UpdateProfile = () => {
             <input
               type="text"
               name="address"
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md text-gray-600"
               value={stdDetails.address}
               onChange={handleInputChange}
             />
@@ -338,7 +340,7 @@ const UpdateProfile = () => {
             <Select
               name="lastQualification"
               options={qualificationOptions}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md text-gray-600"
               value={qualificationOptions.find(option => option.value === stdDetails.lastQualification)}
               onChange={handleSelectChange}
             />
@@ -348,7 +350,7 @@ const UpdateProfile = () => {
             <Select
               name="city"
               options={cityOptions}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md text-gray-600"
               value={cityOptions.find(option => option.value === stdDetails.city)}
               onChange={handleSelectChange}
             />

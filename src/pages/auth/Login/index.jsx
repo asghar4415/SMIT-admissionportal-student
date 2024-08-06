@@ -44,12 +44,16 @@ const Login = () => {
       });
       return;
     }
-
     setLoadingApi(true);
+
     try {
+
       const loginRsp = await axios.post(`${apiUrl}/api/auth/login`, formData);
+    // console.log(loginRsp);
+
+
       localStorage.setItem("token", loginRsp.data.token);
-      toast.success(`Welcome ${email}`, {
+      toast.success(`Welcome`, {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -61,8 +65,8 @@ const Login = () => {
         transition: Bounce,
       });
       navigate("/");
-      // console.log(loginRsp);
-    } catch (err) {
+    } catch (error) {
+
       toast.error("Either CNIC or password is incorrect", {
         position: "top-right",
         autoClose: 2000,
@@ -77,6 +81,7 @@ const Login = () => {
       setLoadingApi(false);
     }
   };
+
 
   const paragraphStyle = {
     lineHeight: "1.2",
