@@ -3,8 +3,6 @@ import Sidebar from '../../components/Sidebar';
 import './CourseEnrollment.css'; // Ensure this path is correct
 import "../../App.css";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { useEffect } from 'react';
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -22,12 +20,10 @@ const CourseEnrollment = () => {
     setExpanded(expanded === id ? null : id);
   };
 
-  const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
   const cnic = JSON.parse(atob(token.split(".")[1])).cnic;
   const [stdregion, setStdRegion] = useState(null);
-
   const [courseDetails, setCourseDetails] = useState([]);
 
   useEffect(() => {
@@ -52,6 +48,7 @@ const CourseEnrollment = () => {
     const getCourses = async () => {
       try {
         const resp = await axios.get(`${apiUrl}/api/course/view`);
+        console.log("resp",resp)
         const courses = [];
   
         for (let i = 0; i < resp.data.length; i++) {
@@ -80,6 +77,7 @@ const CourseEnrollment = () => {
             }
           }
         }
+        console.log("hehe",courses)
         setCourseDetails(courses);
         // console.log(courses);
       } catch (error) {
@@ -97,7 +95,7 @@ const CourseEnrollment = () => {
   };
   
   
-
+console.log(courseDetails)
 
 
   return (
@@ -111,41 +109,40 @@ const CourseEnrollment = () => {
           //if courseDetails is empty, show a loading spinner
           //else, show the courses
 
-
-
-  Array.isArray(courseDetails) && courseDetails.map((course) => (
-    <div
-      key={course.id}
-      style={{ fontFamily: "Arsenal SC" }}
-      className={`${course.color} border p-4 rounded-lg shadow-md transition-all duration-500 transform ${expanded === course.id ? 'scale-105' : 'scale-100'} ${expanded === course.id ? 'h-auto' : 'h-32'}`}
-      onClick={() => handleExpand(course.id)}
-    >
-      <div className="cursor-pointer h-full flex flex-col justify-between">
-        <div>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-              <span className="blink_mee"></span>
-              <span>NEW</span>
-            </div>
-            <span className="text-sm text-gray-600">Deadline |  {formatDate(course.deadline)}</span>
+courseDetails.length?( courseDetails?.map((course) => (
+  <div
+    key={course.id}
+    style={{ fontFamily: "Arsenal SC" }}
+    className={`${course.color} border p-4 rounded-lg shadow-md transition-all duration-500 transform ${expanded === course.id ? 'scale-105' : 'scale-100'} ${expanded === course.id ? 'h-auto' : 'h-32'}`}
+    onClick={() => handleExpand(course.id)}
+  >
+    <div className="cursor-pointer h-full flex flex-col justify-between">
+      <div>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+            <span className="blink_mee"></span>
+            <span>NEW</span>
           </div>
-          <h2 className="text-lg font-semibold mt-2">{course.title}</h2>
-          {expanded === course.id && (
-            <ul className="mt-2 text-sm text-gray-700 list-disc pl-5">
-              {course.description.map((desc, index) => (
-                <li key={index}>{desc}</li>
-              ))}
-            </ul>
-          )}
+          <span className="text-sm text-gray-600">Deadline |  {formatDate(course.deadline)}</span>
         </div>
+        <h2 className="text-lg font-semibold mt-2">{course.title}</h2>
         {expanded === course.id && (
-          <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-md">Enroll Now</button>
+          <ul className="mt-2 text-sm text-gray-700 list-disc pl-5">
+            {course.description.map((desc, index) => (
+              <li key={index}>{desc}</li>
+            ))}
+          </ul>
         )}
       </div>
+      {expanded === course.id && (
+        <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-md">Enroll Now</button>
+      )}
     </div>
-  )
-  
-  )
+  </div>
+)
+
+)):( <div className='text-center font-bold w-[80vw] m-auto border border-black'>Select Your Region First To Enroll In Courses</div>)
+ 
 }
 
         </div>

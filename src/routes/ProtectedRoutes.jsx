@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 import { isVerified, setLoading, updateEmail } from "../state/userSlice";
+import Loader from "../components/Loader";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -90,7 +91,7 @@ const ProtectedRoute = () => {
   }, [navigate, dispatch]);
 
   return loading ? (
-    <div className="h-screen flex justify-center items-center">loading...</div>
+    <Loader/>
   ) : verified ? (
     <Outlet />
   ) : (
