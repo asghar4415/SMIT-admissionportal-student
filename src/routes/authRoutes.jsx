@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { isVerified, setLoading } from '../state/userSlice';
 import { Outlet, useNavigate } from 'react-router-dom';
+import Loader from '../components/Loader';
 
 const AuthRoute = () => {
   const navigate= useNavigate()
@@ -60,7 +61,7 @@ const AuthRoute = () => {
   }
 
 
-  return loading?(<div className='h-screen flex justify-center items-center'>loading...</div>):(verified?("already logged in"):<Outlet/>)
+  return loading?(<Loader/>):(verified?("already logged in"):<Outlet/>)
 }
 
 export default AuthRoute

@@ -176,6 +176,17 @@ const Register = () => {
       });
       navigate("/auth/login");
     } catch (err) {
+      toast.error(`CNIC or email Already Exists.`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
       // console.error(err);
       setLoading(false);
     }
