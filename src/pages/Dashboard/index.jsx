@@ -13,7 +13,7 @@ const Dashboard = () => {
 
 
   const { cnic } = useSelector((state) => state.userReducer);
-  const token = localStorage.getItem("token");
+  
 
   
   const [stdDetails,setStdDetails] = useState({
@@ -30,16 +30,19 @@ const Dashboard = () => {
   
   useEffect(()=>{
 
+    const token = localStorage.getItem("token");
     const cnic = JSON.parse(atob(token.split(".")[1])).cnic;
+    // console.log(cnic)
 
     const getUserData = async()=>{
 const resp =await axios.get(`${apiUrl}/getUserData/${cnic}`)
+// console.log(resp.data)
     
 
 setStdDetails({
         ...stdDetails,
         name: resp.data.fullName,
-        img: resp.data.img[0],
+        img: resp.data.img,
         marks: resp.data.marks,
         result: resp.data.result,
         admissionStatus: resp.data.admissionStatus,
@@ -52,9 +55,7 @@ setStdDetails({
     getUserData()
 
   },[])
-  // useEffect(()=>{
-  //   console.log(stdDetails)
-  // },[stdDetails])
+
 
   return (
     <div className="flex flex-col md:flex-row bg-gray-100 min-h-screen p-2">

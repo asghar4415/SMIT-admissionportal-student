@@ -74,7 +74,7 @@ const UpdateProfile = () => {
           address: resp.data.address || "",
           lastQualification: resp.data.lastQualification || "",
           laptop: resp.data.laptop || false,
-          img: resp.data.img[0]
+          img: resp.data.img
         });
         setImageUrl(resp.data.profileImage || null);
       } catch (error) {
@@ -147,7 +147,7 @@ const UpdateProfile = () => {
     formData.append('file', imageFile);
 
     try {
-      console.log('Uploading to Cloudinary');
+      // console.log('Uploading to Cloudinary');
       const response = await axios.post(`${apiUrl}/api/uploadimage`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
@@ -172,10 +172,10 @@ const UpdateProfile = () => {
       const resp = await axios.post(`${apiUrl}/updateUserData`, updatedDetails);
       
       toast.success("Profile updated successfully");
-      console.log("Profile updated successfully", resp.data);
+      // console.log("Profile updated successfully", resp.data);
     } catch (error) {
       toast.error("Error updating profile");
-      console.error("Error updating profile:", error);
+      // console.error("Error updating profile:", error);
     } finally {
       setLoading(false);
     }
