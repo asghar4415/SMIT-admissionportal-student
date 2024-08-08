@@ -141,7 +141,7 @@ courseDetails.length?( courseDetails?.map((course) => (
   </div>
 )
 
-)):( <div className='text-center font-bold w-[80vw] m-auto border border-black'>Select Your Region First To Enroll In Courses</div>)
+)):( <div className='text-center font-bold w-[80vw] m-auto '>Select Your Region First To Enroll In Courses</div>)
  
 }
 

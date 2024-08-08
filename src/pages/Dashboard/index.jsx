@@ -17,7 +17,7 @@ const Dashboard = () => {
   
   const dispatch = useDispatch()
 
-    console.log(name,url)
+    // console.log(name,url)
     
   const [stdDetails,setStdDetails] = useState({
     name:null,
@@ -72,7 +72,7 @@ setStdDetails({
        className="flex-1 bg-white p-2 rounded-lg shadow-md ml-0 md:ml-4 mt-4 md:mt-0">
         <div className="flex flex-col md:flex-row items-center bg-[#005EC4] text-white p-4 rounded-lg md:gap-[2rem]">
           <img
-            src={stdDetails.img || ProfilePic}
+            src={ ProfilePic || stdDetails.img}
             alt="Profile"
             className="w-40 h-40 rounded-full object-cover border-none md:ml-4"
           />

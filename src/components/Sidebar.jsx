@@ -10,6 +10,7 @@ import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import "./sidebar.css";
 import { useSelector } from 'react-redux';
 
+
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate()
@@ -18,6 +19,11 @@ const Sidebar = () => {
   };
 
   const { cnic,name ,url} = useSelector((state) => state.userReducer);
+
+
+
+
+
 
   const removeToken = ()=>{
     localStorage.removeItem("token")
@@ -56,7 +62,7 @@ const Sidebar = () => {
         <div className="flex flex-row items-center justify-left">
             <div>
             <img
-                src={url || ProfilePic}
+                src={ProfilePic || url}
                 alt="Profile"
                 className="w-10 h-10 rounded-full"
             />

@@ -9,6 +9,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from '../../components/Sidebar';
 import "../../components/sidebar.css";
 import "./style1.css";
+import { updateImgUrl, updateName } from "../../state/userSlice";
+
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -31,6 +33,8 @@ const qualificationOptions = [
 const UpdateProfile = () => {
   const dispatch = useDispatch();
   // const { email } = useSelector((state) => state.userReducer);
+
+
   const token = localStorage.getItem("token");
   const cnic = JSON.parse(atob(token.split(".")[1])).cnic;
   const [stdDetails, setStdDetails] = useState({
@@ -77,6 +81,11 @@ const UpdateProfile = () => {
           img: resp.data.img
         });
         setImageUrl(resp.data.profileImage || null);
+
+        dispatch(updateName(resp.data.fullName))
+      dispatch(updateImgUrl(resp.data.img))
+
+
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -204,10 +213,10 @@ const UpdateProfile = () => {
                 />
               ) : (
                 <img
-                  src={imageUrl || stdDetails.img || ProfilePic }
+                  src={ ProfilePic || imageUrl || stdDetails.img }
                   alt="Profile"
                   className="rounded-full md:w-52 md:h-52 w-32 h-32"
-                  onClick={() => fileInputRef.current.click()}
+                 
                 />
               )}
               {editingImage && (
@@ -229,7 +238,7 @@ const UpdateProfile = () => {
                 ref={fileInputRef}
               />
               <label htmlFor="fileInput" className="absolute bottom-2 right-2 bg-gray-200 rounded-full p-2 cursor-pointer">
-                <span role="img" aria-label="edit">✏️</span>
+                <span role="img" aria-label="edit"  onClick={() => fileInputRef.current.click()}>✏️</span>
               </label>
             </div>
             {editingImage && (
