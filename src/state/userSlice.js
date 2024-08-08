@@ -5,6 +5,8 @@ const initialState = {
   email: null,
   cnic: null,
   verified: false,
+  name:null,
+  url:null
 };
 
 export const userSlice = createSlice({
@@ -15,6 +17,7 @@ export const userSlice = createSlice({
       // console.log("main", state, action);
       state.email = action.payload;
     },
+    
     setLoading: (state, action) => {
       // console.log("mae", state);
       // console.log(action);
@@ -32,9 +35,13 @@ export const userSlice = createSlice({
       console.log("let redux", action.payload);
       state.name = action.payload;
     },
+    updateImgUrl: (state, action) => {
+      console.log("let redux", action.payload);
+      state.url = action.payload;
+    },
   },
 });
 
-export const { updateEmail, setLoading, isVerified } = userSlice.actions;
+export const { updateEmail, setLoading, isVerified,updateName,updateCnic,updateImgUrl } = userSlice.actions;
 
 export default userSlice.reducer;

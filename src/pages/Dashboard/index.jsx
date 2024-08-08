@@ -4,18 +4,21 @@ import ProfilePic from "/img/profile.jpg";
 import "./dashboard.css";
 import "../../components/sidebar.css" 
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 const apiUrl = import.meta.env.VITE_API_URL;
 import { useNavigate } from "react-router-dom";
+import { updateImgUrl, updateName } from "../../state/userSlice";
 
 const Dashboard = () => {
   const navigate = useNavigate();
 
 
-  const { cnic } = useSelector((state) => state.userReducer);
+  const { cnic,name ,url} = useSelector((state) => state.userReducer);
   
+  const dispatch = useDispatch()
 
-  
+    console.log(name,url)
+    
   const [stdDetails,setStdDetails] = useState({
     name:null,
     img:null,
@@ -51,6 +54,10 @@ setStdDetails({
         phoneNo:resp.data.phone,
         region:resp.data.city
       });
+      dispatch(updateName(resp.data.fullName))
+      dispatch(updateImgUrl(resp.data.img))
+
+      
     }
     getUserData()
 

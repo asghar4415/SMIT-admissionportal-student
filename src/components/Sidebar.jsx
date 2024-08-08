@@ -8,6 +8,7 @@ import { FaUserEdit } from "react-icons/fa";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import "./sidebar.css";
+import { useSelector } from 'react-redux';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,13 +17,15 @@ const Sidebar = () => {
     setIsOpen(!isOpen);
   };
 
+  const { cnic,name ,url} = useSelector((state) => state.userReducer);
+
   const removeToken = ()=>{
     localStorage.removeItem("token")
     navigate("/auth/login")
   }
 
   return (
-    <div className="md:flex md:flex-col md:w-1/6 bg-white p-4 rounded-lg shadow-md sidebar-separation">
+    <div className="md:flex md:flex-col md:w-2/6  lg:w-[27%] xl:w-1/6 bg-white p-4 rounded-lg shadow-md sidebar-separation">
       {/* Mobile and Tablet Sidebar Toggle Button */}
       <button
         className="md:hidden p-2 focus:outline-none"
@@ -53,7 +56,7 @@ const Sidebar = () => {
         <div className="flex flex-row items-center justify-left">
             <div>
             <img
-                src={ProfilePic}
+                src={url || ProfilePic}
                 alt="Profile"
                 className="w-10 h-10 rounded-full"
             />
@@ -64,7 +67,7 @@ const Sidebar = () => {
               {
                 fontFamily: "Plus Jakarta Sans",
               }
-            }>Abdullah Shafiq</h2>
+            }>{name}</h2>
             {/* <p className="text-sm text-gray-600">any Description</p> */}
             </div>
         </div>
