@@ -7,7 +7,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 const apiUrl = import.meta.env.VITE_API_URL;
 import { useNavigate } from "react-router-dom";
-import { updateImgUrl, updateName } from "../../state/userSlice";
+import { updateEmail, updateImgUrl, updateName } from "../../state/userSlice";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -56,7 +56,7 @@ setStdDetails({
       });
       dispatch(updateName(resp.data.fullName))
       dispatch(updateImgUrl(resp.data.img))
-
+dispatch(updateEmail(resp.data.email))
       
     }
     getUserData()

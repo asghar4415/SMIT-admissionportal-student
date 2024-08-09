@@ -1,10 +1,10 @@
 import  { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { isVerified, setLoading} from '../../../state/userSlice';
+import { isVerified, setLoading, setotpVerified} from '../../../state/userSlice';
 import { useNavigate } from 'react-router-dom';
 const apiUrl = import.meta.env.VITE_API_URL;
-const OtpVerifyPage = () => {
+const OtpVerifyPage = ({verified}) => {
   const dispatch = useDispatch()
   const [otp, setOtp] = useState('');
   const [message, setMessage] = useState('');
@@ -13,25 +13,25 @@ const OtpVerifyPage = () => {
   const {email} = useSelector((state) => state.userReducer);
 
 
-  useEffect(()=>{
-    const checkVerify = async()=>{
-        dispatch(setLoading(false));
-        console.log("verify api hit fot redirecting purpose please understand")
-        const resp= await axios.get(`${apiUrl}/api/auth/verify`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          });
-          if(resp?.data?.status!==false && !resp?.data?.email){
-            navigate("/")
-            return
-          }
-          else{
-            dispatch(setLoading(false));
-          }
-    }
-    checkVerify()
-  },[])
+  // useEffect(()=>{
+  //   const checkVerify = async()=>{
+  //       dispatch(setLoading(false));
+  //       console.log("verify api hit fot redirecting purpose please understand")
+  //       const resp= await axios.get(`${apiUrl}/api/auth/verify`, {
+  //           headers: {
+  //             Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //           },
+  //         });
+  //         if(resp?.data?.status!==false && !resp?.data?.email){
+  //           navigate("/")
+  //           return
+  //         }
+  //         else{
+  //           dispatch(setLoading(false));
+  //         }
+  //   }
+  //   checkVerify()
+  // },[])
 
 
   const handleOtpChange = (e) => {
@@ -53,8 +53,13 @@ const OtpVerifyPage = () => {
       setMessage(response.data.message);
       setStatus(response.data.status ? 'success' : 'error');
       dispatch(setLoading(false));
-      dispatch(isVerified(true))
-      navigate("/")
+      if(response.data.status){
+        dispatch(setotpVerified(true))
+        return
+      }
+      // dispatch(setotpVerified(true))
+      // verified(true)
+      // navigate("/")
     } catch (error) {
       setMessage('An error occurred. Please try again.');
       setStatus('error');
@@ -83,7 +88,7 @@ const OtpVerifyPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+    <div className="h-fit bg-gray-100 flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
         <h2 className="text-2xl font-bold text-center mb-4">Verify OTP</h2>
         <form onSubmit={handleSubmit}>

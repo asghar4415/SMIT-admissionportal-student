@@ -9,7 +9,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from '../../components/Sidebar';
 import "../../components/sidebar.css";
 import "./style1.css";
-import { updateImgUrl, updateName } from "../../state/userSlice";
+import { isVerified, setotpVerified, updateEmail, updateImgUrl, updateName } from "../../state/userSlice";
+import OtpVerifyPage from '../auth/OtpVerify';
 
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -52,6 +53,7 @@ const UpdateProfile = () => {
     laptop: false,
     img: ""
   });
+
   const [loading, setLoading] = useState(false);
   const [imageFile, setImageFile] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
@@ -61,6 +63,14 @@ const UpdateProfile = () => {
   const editorRef = useRef(null);
   const fileInputRef = useRef(null);
 
+  useEffect(()=>{
+    const token =localStorage.getItem("token");
+    
+       
+         
+  },[])
+
+  const [userVerified,setUserVerified]= useState("loading")
   useEffect(() => {
     const getUserData = async () => {
       try {
@@ -84,8 +94,31 @@ const UpdateProfile = () => {
 
         dispatch(updateName(resp.data.fullName))
       dispatch(updateImgUrl(resp.data.img))
-
-
+        dispatch(updateEmail(resp.data.email))
+      const verifyUser =async()=>{
+        try{
+          const isverified= await axios.get(`${apiUrl}/userOtpVerified/${resp.data.email}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            
+          });
+          setUserVerified(false)
+          console.log("is verified",isverified)
+          const sendotp = await axios.post(`${apiUrl}/api/auth/resend-otp`, {
+            email: resp.data.email,
+          }, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          console.log(sendotp)
+        }catch(err){
+          dispatch(setotpVerified(true))
+          console.log(err)
+        }
+        }
+        verifyUser()
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -183,16 +216,26 @@ const UpdateProfile = () => {
       toast.success("Profile updated successfully");
       // console.log("Profile updated successfully", resp.data);
     } catch (error) {
+      console.log("error chalaa",error  )
+     
       toast.error("Error updating profile");
       // console.error("Error updating profile:", error);
     } finally {
       setLoading(false);
     }
   };
-
+  const {otpverified} = useSelector((state) => state.userReducer);
+  console.log(otpverified)
   return (
+    
     <div className="flex flex-col md:flex-row bg-gray-100 min-h-screen p-2">
       <Sidebar />
+      <div className='relative flex-1'>
+      {otpverified === false && (
+          <div className="absolute inset-0 bg-gray-400  bg-opacity-50 flex justify-center items-center z-50">
+            <OtpVerifyPage  />
+          </div>
+        )}
       <div className="flex-1 bg-white p-2 rounded-lg shadow-md ml-0 md:ml-4 mt-4 md:mt-0">
         <ToastContainer />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6 mt-7">
@@ -398,6 +441,7 @@ const UpdateProfile = () => {
             {loading ? "Loading..." : "Submit"}
           </button>
         </div>
+      </div>
       </div>
     </div>
   );

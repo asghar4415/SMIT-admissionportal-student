@@ -6,13 +6,18 @@ const initialState = {
   cnic: null,
   verified: false,
   name:null,
-  url:null
+  url:null,
+  otpverified:false
 };
 
 export const userSlice = createSlice({
   name: "userSlice",
   initialState,
   reducers: {
+    setotpVerified:(state, action) => {
+      // console.log("main", state, action);
+      state.otpverified = action.payload;
+    },
     updateEmail: (state, action) => {
       // console.log("main", state, action);
       state.email = action.payload;
@@ -42,6 +47,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { updateEmail, setLoading, isVerified,updateName,updateCnic,updateImgUrl } = userSlice.actions;
+export const { updateEmail, setLoading, isVerified,updateName,updateCnic,updateImgUrl,setotpVerified } = userSlice.actions;
 
 export default userSlice.reducer;
