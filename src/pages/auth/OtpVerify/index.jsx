@@ -67,10 +67,11 @@ const OtpVerifyPage = ({verified}) => {
   };
 
   const handleResendOtp = async () => {
+    console.log("email",email)
     try {
       const resp =await axios.post(
         `${apiUrl}/api/auth/resend-otp`,
-        { id: email },
+        { email: email },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

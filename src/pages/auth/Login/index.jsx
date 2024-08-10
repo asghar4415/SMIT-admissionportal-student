@@ -28,7 +28,6 @@ const Login = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     const { cnic, password } = formData;
-    // console.log(formData);
 
     if (!cnic || !password) {
       toast.error("CNIC and password cannot be empty", {
@@ -49,7 +48,6 @@ const Login = () => {
     try {
 
       const loginRsp = await axios.post(`${apiUrl}/api/auth/login`, formData);
-    // console.log(loginRsp);
 
 
       localStorage.setItem("token", loginRsp.data.token);

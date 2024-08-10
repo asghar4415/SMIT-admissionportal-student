@@ -31,7 +31,6 @@ const AuthRoute = () => {
             },
             
           });
-        console.log(isverified)
         if(localStorage.getItem("token")){
           console.log("mae andr hon auth")
           if(isverified?.data?.status===false && isverified?.data?.email){
