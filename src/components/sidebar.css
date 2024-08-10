@@ -69,8 +69,11 @@
 
 .sidebar-separation
 {
-    /* border: 1px solid black; */
-    justify-content: space-between;
+  height: 100%;
+
+ justify-content: space-between;
+
+
 }
 .logout-button
 {
@@ -79,8 +82,7 @@
     width: 100%;
     padding: 0.8rem 1rem;
     background-color: #005EC4;
-    margin: 0;
-    /* border: 1px solid black; */
+    
     text-align: center;
     border-radius: 5px;
     font-size: 16px;
@@ -93,4 +95,15 @@
 .logout-button:hover
 {
     background-color: #0a71e0;
+}
+
+
+@media screen and (max-width: 768px) {
+
+  .logout-button
+  {
+    width: 100%;
+    margin-top: 1rem;
+    font-size: 16px;
+  }
 }

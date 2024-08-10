@@ -16,6 +16,7 @@ const Register = () => {
     name: "",
     email: "",
     password: "",
+    confirmPassword: "",
     cnic: "",
   });
   const [passwordStrength, setPasswordStrength] = useState(0);
@@ -23,10 +24,9 @@ const Register = () => {
     name: "",
     email: "",
     password: "",
+    confirmPassword: "",
     cnic: "",
   });
-
-
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -108,6 +108,26 @@ const Register = () => {
     }
   };
 
+  const handleConfirmPasswordChange = (e) => {
+    const confirmPassword = e.target.value;
+    setFormData((prev) => ({
+      ...prev,
+      confirmPassword,
+    }));
+
+    if (confirmPassword !== formData.password) {
+      setErrors((prev) => ({
+        ...prev,
+        confirmPassword: "Passwords do not match",
+      }));
+    } else {
+      setErrors((prev) => ({
+        ...prev,
+        confirmPassword: "",
+      }));
+    }
+  };
+
   const handleCnicChange = (e) => {
     const cnic = e.target.value;
     setFormData((prev) => ({
@@ -152,6 +172,12 @@ const Register = () => {
       return;
     }
 
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match.");
+      setLoading(false);
+      return;
+    }
+
     if (!validateCNIC(formData.cnic)) {
       alert("Please enter a valid CNIC.");
       setLoading(false);
@@ -163,18 +189,37 @@ const Register = () => {
         `${apiUrl}/api/auth/register`,
         formData
       );
-      toast.success(`Thankyou for Signing up.`, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-      });
-      navigate("/auth/login");
+
+      if (registerRsp.data.status === false) {
+        toast.error(`CNIC or email Already Exists.`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+        setLoading(false);
+      }
+      else
+      {
+        toast.success(`Thankyou for Signing up.`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+        navigate("/auth/login");
+      }
+      
     } catch (err) {
       toast.error(`CNIC or email Already Exists.`, {
         position: "top-right",
@@ -227,18 +272,18 @@ const Register = () => {
           <OrbitingText color="white" />
         </div>
       </div>
-      
+
 
       <div className="w-[90%] m-auto sm:w-fit   lg:m-0">
         <div className="head-1">
-          <img src="/img/bg-removed.png" alt="" className="small-img"/>
-        <h1 className="small-head"
-         >Welcome to SMIT</h1>
-         
+          <img src="/img/bg-removed.png" alt="" className="small-img" />
+          <h1 className="small-head"
+          >Welcome to SMIT</h1>
+
         </div>
         <h1 className="text-3xl font-semibold login-logo big-img">
-            <img src="/img/bg-removed.png" alt="" />
-          </h1>
+          <img src="/img/bg-removed.png" alt="" />
+        </h1>
         <h1 className="text-4xl font-semibold mb-1"
           style={{
             fontFamily: "Arsenal SC",
@@ -355,14 +400,14 @@ const Register = () => {
               <div className="mt-2">
                 <div
                   className={`h-2 rounded-full ${passwordStrength === 0
-                      ? "bg-gray-100"
-                      : passwordStrength === 1
-                        ? "bg-red-500"
-                        : passwordStrength === 2
-                          ? "bg-yellow-500"
-                          : passwordStrength === 3
-                            ? "bg-blue-500"
-                            : "bg-green-500"
+                    ? "bg-gray-100"
+                    : passwordStrength === 1
+                      ? "bg-red-500"
+                      : passwordStrength === 2
+                        ? "bg-yellow-500"
+                        : passwordStrength === 3
+                          ? "bg-blue-500"
+                          : "bg-green-500"
                     }`}
                   style={{ width: `${(passwordStrength + 1) * 20}%` }}
                 ></div>
@@ -378,7 +423,7 @@ const Register = () => {
           <div className="w-full flex flex-col mt-1 sm:flex-row gap-2 min-h-[6rem]">
             <div className="w-full sm:w-[50%]">
               <label
-                htmlFor="password"
+                htmlFor="confirmPassword"
                 className="block text-gray-600 font-bold text-sm"
                 style={{
                   fontFamily: "Arsenal SC",
@@ -389,12 +434,20 @@ const Register = () => {
               <input
                 type="password"
                 disabled={loading}
-                id="password"
+                id="confirmPassword"
                 name="password"
-                className={`w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500 border-gray-300`}
-              // onChange={}
-              />
+                value={formData.confirmPassword}
+                onChange={handleConfirmPasswordChange}
+                required
+                placeholder="Confirm your password"
+                className="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500 border-gray-300"
 
+              />
+              {errors.confirmPassword && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.confirmPassword}
+                </p>
+              )}
             </div>
           </div>
 

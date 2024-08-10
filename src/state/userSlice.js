@@ -37,9 +37,13 @@ export const userSlice = createSlice({
     updateImgUrl: (state, action) => {
       state.url = action.payload;
     },
+    updateRegion: (state, action) => {
+      state.stdregion = action.payload;
+    }
+    
   },
 });
 
-export const { updateEmail, setLoading, isVerified,updateName,updateCnic,updateImgUrl,setotpVerified } = userSlice.actions;
+export const { updateEmail, setLoading, isVerified,updateName,updateCnic,updateImgUrl,setotpVerified, updateRegion } = userSlice.actions;
 
 export default userSlice.reducer;

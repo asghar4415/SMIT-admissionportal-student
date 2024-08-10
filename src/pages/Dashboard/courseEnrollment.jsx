@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Sidebar from '../../components/Sidebar';
 import './CourseEnrollment.css'; // Ensure this path is correct
 import "../../App.css";
 import axios from "axios";
-import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import 'react-toastify/dist/ReactToastify.css';
+
+import { ToastContainer, toast } from 'react-toastify';
+import {updateRegion, updateEmail, updateImgUrl, updateName } from "../../state/userSlice";
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 
@@ -11,10 +16,11 @@ const apiUrl = import.meta.env.VITE_API_URL;
 const CourseEnrollment = () => {
   const [expanded, setExpanded] = useState(null);
 
-  const courses = [
-    { id: 1, title: 'Website and Mobile App Development', region: "karachi", deadline: '24th Jan 2024', description: ['12 months module', 'Weekdays Classes', 'Any other description', 'Any other description'], color: 'bg-blue-100' },
-    { id: 2, title: 'Website and App', region: "karachi", deadline: '24th Jan 2024', description: [''], color: 'bg-blue-100' },
-  ];
+  const dispatch = useDispatch();
+  
+
+  
+
 
   const handleExpand = (id) => {
     setExpanded(expanded === id ? null : id);
@@ -25,14 +31,50 @@ const CourseEnrollment = () => {
   const cnic = JSON.parse(atob(token.split(".")[1])).cnic;
   const [stdregion, setStdRegion] = useState(null);
   const [courseDetails, setCourseDetails] = useState([]);
+  const [stdDetails, setStdDetails] = useState({
+    fullName: "",
+    fatherName: "",
+    cnic: cnic,
+    email: "",
+    city: "",
+    phone: "",
+    date_of_birth: "",
+    gender: "",
+    address: "",
+    lastQualification: "",
+    laptop: false,
+    img: ""
+  });
 
   useEffect(() => {
     const getRegion = async () => {
       try {
         const resp = await axios.get(`${apiUrl}/getUserData/${cnic}`);
+
+        setStdDetails({
+          fullName: resp.data.fullName,
+          fatherName: resp.data.fatherName,
+          cnic: resp.data.cnic,
+          email: resp.data.email,
+          city: resp.data.city,
+          phone: resp.data.phone,
+          date_of_birth: resp.data.date_of_birth,
+          gender: resp.data.gender,
+          address: resp.data.address,
+          lastQualification: resp.data.lastQualification,
+          laptop: resp.data.laptop,
+          img: resp.data.img
+        });
+
+
         setStdRegion(resp.data.city.toLowerCase());
+
+        dispatch(updateName(resp.data.fullName));
+        dispatch(updateEmail(resp.data.email));
+        dispatch(updateImgUrl(resp.data.img));
+        dispatch(updateRegion(resp.data.city));
       } catch (error) {
-        console.error("Error fetching region:", error);
+        // console.error("Error fetching region:", error);
       }
     };
     getRegion();
@@ -45,22 +87,22 @@ const CourseEnrollment = () => {
   
 
   useEffect(() => {
+
     const getCourses = async () => {
       try {
         const resp = await axios.get(`${apiUrl}/api/course/view`);
-        console.log("resp",resp)
         const courses = [];
   
         for (let i = 0; i < resp.data.length; i++) {
           const coursename = resp.data[i].course_name;
           const batch = resp.data[i].batch;
-          // console.log(batch);
+
           for (let j = 0; j < batch.length; j++) {
             const batch_region = batch[j].region.toLowerCase();
             
 
             if (batch_region === stdregion) {
-              // console.log("hiii");
+  
               const deadline = new Date(batch[j].deadline);
               
               const today_date = new Date();
@@ -77,11 +119,10 @@ const CourseEnrollment = () => {
             }
           }
         }
-        console.log("hehe",courses)
+
         setCourseDetails(courses);
-        // console.log(courses);
       } catch (error) {
-        console.error("Error fetching courses:", error);
+        // console.error("Error fetching courses:", error);
       }
     };
   
@@ -94,8 +135,54 @@ const CourseEnrollment = () => {
     return date.toLocaleDateString(undefined, options);
   };
   
+
+  const handleCourseApply = async () => {
+
+    if (
+      stdDetails.fullName &&
+      stdDetails.fatherName &&
+      stdDetails.city &&
+      stdDetails.phone &&
+      stdDetails.email &&
+      stdDetails.lastQualification &&
+      stdDetails.date_of_birth &&
+      stdDetails.gender &&
+      stdDetails.address &&
+      stdDetails.img &&
+      stdDetails.laptop
+    ) {
+      try{
+
+        const resp = await axios.post(`${apiUrl}/api/course/enroll`, {
+          cnic: stdDetails.cnic,
+          course_details:
+          {
+            course_id: expanded,
+            course_name: courseDetails.find((course) => course.id === expanded).title,
+            region: stdregion,
+            batch_id: expanded,
+            test_date: courseDetails.find((course) => course.id === expanded).description[2].split(":")[1].trim(),
+            deadline: courseDetails.find((course) => course.id === expanded).deadline
+
+          },
+        });
+
+        toast.success(resp.data.message);
+
+          
+
+      }
+      catch (error) {
+        toast.error(error.response.data.error);
+      }
+
+
+    } else {
+      toast.error("Complete Your Profile First");
+    }
+  };
   
-console.log(courseDetails)
+
 
 
   return (
@@ -105,9 +192,7 @@ console.log(courseDetails)
         <h1 className="text-2xl font-bold mb-10"></h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {
-
-          //if courseDetails is empty, show a loading spinner
-          //else, show the courses
+      
 
 courseDetails.length?( courseDetails?.map((course) => (
   <div
@@ -135,13 +220,16 @@ courseDetails.length?( courseDetails?.map((course) => (
         )}
       </div>
       {expanded === course.id && (
-        <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-md">Enroll Now</button>
+        <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-md" onClick={handleCourseApply}>Enroll Now</button>
       )}
     </div>
   </div>
 )
 
-)):( <div className='text-center font-bold w-[80vw] m-auto '>Select Your Region First To Enroll In Courses</div>)
+)):
+stdregion ?
+(<div className='text-center font-bold w-[80vw] m-auto '>No Courses Available For Your Region</div>):
+( <div className='text-center font-bold w-[80vw] m-auto '>Select Your Region First To Enroll In Courses</div>)
  
 }
 

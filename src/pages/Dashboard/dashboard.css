@@ -13,3 +13,26 @@
       opacity: 0.5;
     }
   }
+
+  .blink_me_green
+  {
+    animation: blinker 2s linear infinite;
+    width: 9px;
+    height: 9px;
+    display: inline-block;
+    border: 1px solid green;
+    background-color: green;
+
+    border-radius: 100%;
+  }
+  .blink_me_red
+  {
+    animation: blinker 2s linear infinite;
+    width: 9px;
+    height: 9px;
+    display: inline-block;
+    border: 1px solid red;
+    background-color: red;
+
+    border-radius: 100%;
+  }

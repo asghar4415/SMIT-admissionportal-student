@@ -1,0 +1,24 @@
+
+
+.otppage-close
+{
+    position: absolute;
+    border-radius: 50%;
+    padding: 5px;
+    cursor: pointer;
+    
+    left: 59%;
+}
+
+.otppage-close:hover
+{
+    background-color: #f1f1f1;
+}
+
+@media only screen and (max-width: 600px)
+{
+    .otppage-close
+    {
+        left: 80%;
+    }
+}

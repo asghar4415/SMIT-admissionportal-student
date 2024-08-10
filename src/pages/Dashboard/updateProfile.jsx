@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from '../../components/Sidebar';
 import "../../components/sidebar.css";
 import "./style1.css";
-import { isVerified, setotpVerified, updateEmail, updateImgUrl, updateName } from "../../state/userSlice";
+import { isVerified, setotpVerified,updateRegion, updateEmail, updateImgUrl, updateName } from "../../state/userSlice";
 import OtpVerifyPage from '../auth/OtpVerify';
 
 
@@ -33,7 +33,6 @@ const qualificationOptions = [
 
 const UpdateProfile = () => {
   const dispatch = useDispatch();
-  // const { email } = useSelector((state) => state.userReducer);
 
 
   const token = localStorage.getItem("token");
@@ -63,9 +62,12 @@ const UpdateProfile = () => {
   const editorRef = useRef(null);
   const fileInputRef = useRef(null);
 
- 
+  const {otpverified} = useSelector((state) => state.userReducer);
+// console.log("otpverified",otpverified)
+const [showOtpPage, setShowOtpPage] = useState(false);
 
-  const [userVerified,setUserVerified]= useState("loading")
+
+
   useEffect(() => {
     const getUserData = async () => {
       try {
@@ -90,6 +92,7 @@ const UpdateProfile = () => {
         dispatch(updateName(resp.data.fullName))
       dispatch(updateImgUrl(resp.data.img))
         dispatch(updateEmail(resp.data.email))
+        dispatch(updateRegion(resp.data.city))
       const verifyUser =async()=>{
         try{
           const isverified= await axios.get(`${apiUrl}/userOtpVerified/${resp.data.email}`, {
@@ -98,19 +101,13 @@ const UpdateProfile = () => {
             },
             
           });
-          setUserVerified(false)
-          console.log("is verified",isverified)
-          const sendotp = await axios.post(`${apiUrl}/api/auth/resend-otp`, {
-            email: resp.data.email,
-          }, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          console.log(sendotp)
+          // console.log(isverified.data.status)
+          if(isverified.data.status){
+            dispatch(setotpVerified(true))
+          }
+          
         }catch(err){
-          dispatch(setotpVerified(true))
-          console.log(err)
+          console.log("error",err)
         }
         }
         verifyUser()
@@ -152,13 +149,13 @@ const UpdateProfile = () => {
   };
 
   const saveCroppedImage = () => {
-    console.log("mae chala")
+  
     if (editorRef.current) {
       try {
         const canvas = editorRef.current.getImageScaledToCanvas();
         canvas.toBlob((blob) => {
           if (blob) {
-            console.log("mae bhi")
+
             setImageFile(blob);
             setImageUrl(URL.createObjectURL(blob));
             setEditingImage(false);
@@ -170,50 +167,162 @@ const UpdateProfile = () => {
       }
     }
   };
-console.log(imageFile,imageUrl)
+// console.log(imageFile,imageUrl)
   const closeEditing = () => {
     saveCroppedImage();
     setEditingImage(false);
   };
 
+  const checkBlueBackground = async (imageFile) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const reader = new FileReader();
+  
+      reader.onload = function (e) {
+        img.src = e.target.result;
+  
+        img.onload = function () {
+          const canvas = document.createElement('canvas');
+          const context = canvas.getContext('2d');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          context.drawImage(img, 0, 0);
+
+  
+          const imageData = context.getImageData(0, 0, canvas.width, canvas.height).data;
+          const bluePixelThreshold = 0.5; // Adjust this value based on your requirement
+  
+          let bluePixels = 0;
+          let totalPixels = imageData.length / 4;
+  
+          for (let i = 0; i < imageData.length; i += 4) {
+            const r = imageData[i];
+            const g = imageData[i + 1];
+            const b = imageData[i + 2];
+  
+            if (b > 180 && r < 150 && g < 200) {
+              bluePixels++;
+            }
+            
+            
+          }
+          const blueRatio = bluePixels / totalPixels;
+          resolve(blueRatio > bluePixelThreshold);
+        };
+  
+        img.onerror = function () {
+          reject('Image loading failed');
+        };
+      };
+  
+      reader.onerror = function () {
+        reject('Image reading failed');
+      };
+  
+      reader.readAsDataURL(imageFile);
+    });
+  };
+
+
   const uploadImage = async (imageFile) => {
+
+    // console.log("imageFile",imageFile)
     if (!imageFile) {
-      console.error('No image file to upload.');
+      // console.error('No image file to upload.');
       return null;
     }
 
+    const maxSizeInBytes = 200 * 1024; 
+  if (imageFile.size > maxSizeInBytes) {
+    toast.error('Image file is too large. Must be less than 200 KB.');
+    // console.error('Image file is too large. Must be less than 200 KB.');
+    return null;
+  }
+  const hasBlueBackground = await checkBlueBackground(imageFile);
+  if (!hasBlueBackground) {
+    return null;
+  }
+  
     const formData = new FormData();
     formData.append('file', imageFile);
-
+  
     try {
-      // console.log('Uploading to Cloudinary');
       const response = await axios.post(`${apiUrl}/api/uploadimage`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      return response.data.data[0];
+      return response.data.data[0]; // Assuming response contains the uploaded image info
     } catch (error) {
       console.error("Error uploading image:", error);
       return null;
     }
   };
+  
+
+  
+
+  const otpVerification = async () =>
+  {
+    try{
+      const resp = await axios.post(`${apiUrl}/api/auth/resend-otp`, { email: stdDetails.email }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+      )
+      // console.log("resp",resp)
+    }
+    catch(err){
+      console.log("error",err)
+    }
+  setShowOtpPage(true);
+  
+  }
+
+  const validatePhoneNumber = (phone) => {
+    const phoneRegex = /^[0-9]{11}$/;
+    return phoneRegex.test(phone);
+  }
 
   const handleSubmit = async () => {
     setLoading(true);
+    if (otpverified === false) {
+      toast.error("Please verify your email first");
+      otpVerification();
+     
+      if(otpverified === true){
+        setShowOtpPage(false);
+      }
+      setLoading(false);
+      return;
+    }
     try {
       let uploadedImageUrl = imageUrl;
 
       if (imageFile) {
         uploadedImageUrl = await uploadImage(imageFile);
+       
         stdDetails.img = uploadedImageUrl;
+        if(uploadedImageUrl == null ){
+          toast.error("Image does not have a blue background.");
+          return;
+        }
+      
       }
 
+      if(!validatePhoneNumber(stdDetails.phone)){
+        toast.error("Please enter a valid phone number");
+        return;
+      }
+
+
+      
       const updatedDetails = { ...stdDetails, img: uploadedImageUrl };
       const resp = await axios.post(`${apiUrl}/updateUserData`, updatedDetails);
-      
+
       toast.success("Profile updated successfully");
-      // console.log("Profile updated successfully", resp.data);
+
     } catch (error) {
-      console.log("error chalaa",error  )
+      // console.log("error chalaa",error  )
      
       toast.error("Error updating profile");
       // console.error("Error updating profile:", error);
@@ -221,13 +330,31 @@ console.log(imageFile,imageUrl)
       setLoading(false);
     }
   };
-  const {otpverified} = useSelector((state) => state.userReducer);
+
+  const setPicture = ()=>{
+    if(imageFile){
+      return imageFile
+    }
+    else{
+      return ProfilePic
+    }
+  }
+
+  const setPicture2 = ()=>{
+
+    if(imageUrl == null || imageUrl.length > 0){ 
+      return imageUrl
+    }
+    else{
+      return ProfilePic
+    }
+  }
   return (
     
     <div className="flex flex-col md:flex-row bg-gray-100 min-h-screen p-2">
       <Sidebar />
       <div className='relative flex-1'>
-      {otpverified === false && (
+      {showOtpPage && (
           <div className="absolute inset-0 bg-gray-400  bg-opacity-50 flex justify-center items-center z-50">
             <OtpVerifyPage  />
           </div>
@@ -240,7 +367,7 @@ console.log(imageFile,imageUrl)
               {editingImage ? (
                 <AvatarEditor
                   ref={editorRef}
-                  image={imageFile || ProfilePic}
+                  image={setPicture()}
                   width={200}
                   height={200}
                   border={50}
@@ -252,7 +379,7 @@ console.log(imageFile,imageUrl)
                 />
               ) : (
                 <img
-                  src={ imageUrl || ProfilePic || imageUrl || stdDetails.img }
+                  src={setPicture2()}
                   alt="Profile"
                   className="rounded-full md:w-52 md:h-52 w-32 h-32"
                  
@@ -325,7 +452,7 @@ console.log(imageFile,imageUrl)
               name="cnic"
               className="mt-1 p-2 w-full border border-gray-300 rounded-md text-gray-600"
               value={stdDetails.cnic}
-              onChange={handleInputChange}
+              disabled
             />
           </div>
           <div>
@@ -430,7 +557,7 @@ console.log(imageFile,imageUrl)
         <div className="mt-6">
           <button
             type="submit"
-            className="bg-blue-600 text-white py-2 px-4 w-full rounded-md hover:bg-blue-700"
+            className="bg-blue-600 text-white py-2 px-4 w-full rounded-md hover:bg-blue-700 submit-button"
             onClick={handleSubmit}
             disabled={loading}
           >
