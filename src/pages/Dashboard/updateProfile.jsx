@@ -85,7 +85,7 @@ const UpdateProfile = () => {
           laptop: resp.data.laptop || false,
           img: resp.data.img
         });
-        setImageUrl(resp.data.profileImage || null);
+        setImageUrl(resp.data.img || null);
 
         dispatch(updateName(resp.data.fullName))
       dispatch(updateImgUrl(resp.data.img))
@@ -152,11 +152,13 @@ const UpdateProfile = () => {
   };
 
   const saveCroppedImage = () => {
+    console.log("mae chala")
     if (editorRef.current) {
       try {
         const canvas = editorRef.current.getImageScaledToCanvas();
         canvas.toBlob((blob) => {
           if (blob) {
+            console.log("mae bhi")
             setImageFile(blob);
             setImageUrl(URL.createObjectURL(blob));
             setEditingImage(false);
@@ -168,7 +170,7 @@ const UpdateProfile = () => {
       }
     }
   };
-
+console.log(imageFile,imageUrl)
   const closeEditing = () => {
     saveCroppedImage();
     setEditingImage(false);
@@ -250,7 +252,7 @@ const UpdateProfile = () => {
                 />
               ) : (
                 <img
-                  src={ ProfilePic || imageUrl || stdDetails.img }
+                  src={ imageUrl || ProfilePic || imageUrl || stdDetails.img }
                   alt="Profile"
                   className="rounded-full md:w-52 md:h-52 w-32 h-32"
                  

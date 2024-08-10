@@ -62,7 +62,7 @@ const Sidebar = () => {
         <div className="flex flex-row items-center justify-left">
             <div>
             <img
-                src={ProfilePic || url}
+                src={url || ProfilePic }
                 alt="Profile"
                 className="w-10 h-10 rounded-full"
             />
