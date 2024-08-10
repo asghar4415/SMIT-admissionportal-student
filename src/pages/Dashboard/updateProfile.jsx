@@ -225,7 +225,6 @@ const UpdateProfile = () => {
     }
   };
   const {otpverified} = useSelector((state) => state.userReducer);
-  console.log(otpverified)
   return (
     
     <div className="flex flex-col md:flex-row bg-gray-100 min-h-screen p-2">
