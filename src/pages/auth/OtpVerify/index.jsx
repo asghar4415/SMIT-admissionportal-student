@@ -49,7 +49,6 @@ const OtpVerifyPage = ({verified}) => {
   };
 
   const handleResendOtp = async () => {
-    // console.log("email",email)
     try {
       const resp =await axios.post(
         `${apiUrl}/api/auth/resend-otp`,
@@ -64,7 +63,6 @@ const OtpVerifyPage = ({verified}) => {
       setMessage('OTP has been resent to your email.');
       setStatus('success');
     } catch (error) {
-        // console.log(error)
       setMessage('An error occurred while resending OTP. Please try again.');
       setStatus('error');
     }

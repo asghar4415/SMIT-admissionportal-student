@@ -76,7 +76,6 @@ const ImageUpload = () => {
       setLoading(false);
 
     } catch (error) {
-      console.error('Error uploading images', error);
       toast.error('Error uploading images', {
         position: "top-right",
         autoClose: 5000,

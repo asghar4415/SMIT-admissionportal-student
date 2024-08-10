@@ -169,7 +169,6 @@ const Login = () => {
               
               }}
               onChange={(e) => {
-                // console.log(e.target.value);
                 setFormData((prev) => ({
                   ...prev,
                   cnic: e.target.value,
@@ -198,7 +197,6 @@ const Login = () => {
               }}
               placeholder="Enter Your Password"
               onChange={(e) => {
-                // console.log(e.target.value);
                 setFormData((prev) => ({
                   ...prev,
                   password: e.target.value,

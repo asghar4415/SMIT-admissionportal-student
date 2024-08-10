@@ -39,7 +39,6 @@ const Dashboard = () => {
     const getUserData = async () => {
       const resp = await axios.get(`${apiUrl}/getUserData/${cnic}`)
 
-      // console.log(resp.data.coursesApplied)
 
       setStdDetails({
         ...stdDetails,
@@ -69,7 +68,6 @@ const Dashboard = () => {
   }, [])
 
   const setPicture = () => {
-    // console.log(stdDetails.img)
     if (stdDetails.img.length > 0) {
       return stdDetails.img
     }

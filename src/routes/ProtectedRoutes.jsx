@@ -31,7 +31,6 @@ const ProtectedRoute = () => {
         dispatch(setLoading(false));
         pageNav();
       } else {
-        // console.log("verified api hit protected",)
         const resp = await axios.get(`${apiUrl}/api/auth/verify`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -61,7 +60,6 @@ const ProtectedRoute = () => {
         }, timeoutDuration);
       }
     } catch (error) {
-      console.log(error);
       localStorage.removeItem("token");
       dispatch(isVerified(false));
       dispatch(setLoading(false));

@@ -74,7 +74,6 @@ const CourseEnrollment = () => {
         dispatch(updateImgUrl(resp.data.img));
         dispatch(updateRegion(resp.data.city));
       } catch (error) {
-        // console.error("Error fetching region:", error);
       }
     };
     getRegion();
@@ -122,7 +121,6 @@ const CourseEnrollment = () => {
 
         setCourseDetails(courses);
       } catch (error) {
-        // console.error("Error fetching courses:", error);
       }
     };
   

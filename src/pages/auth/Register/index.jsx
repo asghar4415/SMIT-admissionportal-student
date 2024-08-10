@@ -232,7 +232,6 @@ const Register = () => {
         theme: "light",
         transition: Bounce,
       });
-      // console.error(err);
       setLoading(false);
     }
   };

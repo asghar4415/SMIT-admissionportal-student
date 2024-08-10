@@ -54,7 +54,6 @@ const NotificationPanel = () => {
         const resp = await axios.get(`${apiUrl}/api/notification/${stdregion}`);
         setNotifications(resp.data);
       } catch (err) {
-        console.log(err);
       }
     };
     getNotifications();

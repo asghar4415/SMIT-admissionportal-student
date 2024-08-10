@@ -32,7 +32,6 @@ const AuthRoute = () => {
             
           });
         if(localStorage.getItem("token")){
-          console.log("mae andr hon auth")
           if(isverified?.data?.status===false && isverified?.data?.email){
             navigate("/auth/otp-verify")
             return

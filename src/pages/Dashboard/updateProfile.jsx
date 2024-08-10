@@ -63,7 +63,6 @@ const UpdateProfile = () => {
   const fileInputRef = useRef(null);
 
   const {otpverified} = useSelector((state) => state.userReducer);
-// console.log("otpverified",otpverified)
 const [showOtpPage, setShowOtpPage] = useState(false);
 
 
@@ -101,18 +100,15 @@ const [showOtpPage, setShowOtpPage] = useState(false);
             },
             
           });
-          // console.log(isverified.data.status)
           if(isverified.data.status){
             dispatch(setotpVerified(true))
           }
           
         }catch(err){
-          console.log("error",err)
         }
         }
         verifyUser()
       } catch (error) {
-        console.error("Error fetching data:", error);
       }
     };
     getUserData();
@@ -162,12 +158,10 @@ const [showOtpPage, setShowOtpPage] = useState(false);
           }
         });
       } catch (error) {
-        console.error("Error saving the image:", error);
         toast.error("Cannot save the image due to cross-origin restrictions.");
       }
     }
   };
-// console.log(imageFile,imageUrl)
   const closeEditing = () => {
     saveCroppedImage();
     setEditingImage(false);
@@ -226,16 +220,13 @@ const [showOtpPage, setShowOtpPage] = useState(false);
 
   const uploadImage = async (imageFile) => {
 
-    // console.log("imageFile",imageFile)
     if (!imageFile) {
-      // console.error('No image file to upload.');
       return null;
     }
 
     const maxSizeInBytes = 200 * 1024; 
   if (imageFile.size > maxSizeInBytes) {
     toast.error('Image file is too large. Must be less than 200 KB.');
-    // console.error('Image file is too large. Must be less than 200 KB.');
     return null;
   }
   const hasBlueBackground = await checkBlueBackground(imageFile);
@@ -252,7 +243,6 @@ const [showOtpPage, setShowOtpPage] = useState(false);
       });
       return response.data.data[0]; // Assuming response contains the uploaded image info
     } catch (error) {
-      console.error("Error uploading image:", error);
       return null;
     }
   };
@@ -269,10 +259,8 @@ const [showOtpPage, setShowOtpPage] = useState(false);
         },
       }
       )
-      // console.log("resp",resp)
     }
     catch(err){
-      console.log("error",err)
     }
   setShowOtpPage(true);
   
@@ -322,10 +310,8 @@ const [showOtpPage, setShowOtpPage] = useState(false);
       toast.success("Profile updated successfully");
 
     } catch (error) {
-      // console.log("error chalaa",error  )
      
       toast.error("Error updating profile");
-      // console.error("Error updating profile:", error);
     } finally {
       setLoading(false);
     }
