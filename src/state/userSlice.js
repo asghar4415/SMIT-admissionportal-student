@@ -33,15 +33,15 @@ export const userSlice = createSlice({
       state.verified = action.payload;
     },
     updateCnic: (state, action) => {
-      console.log("let redux", action.payload);
+      // console.log("let redux", action.payload);
       state.cnic = action.payload;
     },
     updateName: (state, action) => {
-      console.log("let redux", action.payload);
+      // console.log("let redux", action.payload);
       state.name = action.payload;
     },
     updateImgUrl: (state, action) => {
-      console.log("let redux", action.payload);
+      // console.log("let redux", action.payload);
       state.url = action.payload;
     },
   },

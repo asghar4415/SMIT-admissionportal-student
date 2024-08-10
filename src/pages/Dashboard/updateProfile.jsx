@@ -63,12 +63,7 @@ const UpdateProfile = () => {
   const editorRef = useRef(null);
   const fileInputRef = useRef(null);
 
-  useEffect(()=>{
-    const token =localStorage.getItem("token");
-    
-       
-         
-  },[])
+ 
 
   const [userVerified,setUserVerified]= useState("loading")
   useEffect(() => {
