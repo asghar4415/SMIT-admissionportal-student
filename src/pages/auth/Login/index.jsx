@@ -142,7 +142,7 @@ const Login = () => {
           style={{
             fontFamily: "Arsenal SC"
           }}>
-            Please enter your registered email address and password
+            Please enter your registered CNIC and password
           </p>
         </div>
 

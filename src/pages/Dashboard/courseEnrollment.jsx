@@ -121,7 +121,6 @@ const CourseEnrollment = () => {
   };
 
   const handleCourseApply = async () => {
-    // console.log(stdDetails);
 
     if (
       stdDetails.fullName &&
