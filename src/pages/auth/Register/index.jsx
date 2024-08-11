@@ -32,13 +32,6 @@ const Register = () => {
   });
 
   
-  useEffect(() => {
-    if(window.location.reload())
-    {
-      navigate("/auth/register");
-    }
-  }, []);
-  
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
