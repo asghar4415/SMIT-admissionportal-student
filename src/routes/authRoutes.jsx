@@ -25,7 +25,7 @@ const AuthRoute = () => {
       const token =localStorage.getItem("token");
       if(token){
         const verifyUser =async()=>{
-         const isverified= await axios.get(`${apiUrl}/api/auth/verify`, {
+         const isverified= await axios.get(`${apiUrl}/auth/verify`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },

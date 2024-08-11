@@ -31,7 +31,7 @@ const ProtectedRoute = () => {
         dispatch(setLoading(false));
         pageNav();
       } else {
-        const resp = await axios.get(`${apiUrl}/api/auth/verify`, {
+        const resp = await axios.get(`${apiUrl}/auth/verify`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

@@ -238,7 +238,7 @@ const [showOtpPage, setShowOtpPage] = useState(false);
     formData.append('file', imageFile);
   
     try {
-      const response = await axios.post(`${apiUrl}/api/uploadimage`, formData, {
+      const response = await axios.post(`${apiUrl}/uploadimage`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       return response.data.data[0]; // Assuming response contains the uploaded image info
@@ -253,7 +253,7 @@ const [showOtpPage, setShowOtpPage] = useState(false);
   const otpVerification = async () =>
   {
     try{
-      const resp = await axios.post(`${apiUrl}/api/auth/resend-otp`, { email: stdDetails.email }, {
+      const resp = await axios.post(`${apiUrl}/auth/resend-otp`, { email: stdDetails.email }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

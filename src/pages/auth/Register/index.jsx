@@ -197,7 +197,7 @@ const Register = () => {
 
     try {
       const registerRsp = await axios.post(
-        `${apiUrl}/api/auth/register`,
+        `${apiUrl}/auth/register`,
         formData
       );
 

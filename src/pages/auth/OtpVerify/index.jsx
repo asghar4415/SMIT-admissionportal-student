@@ -26,7 +26,7 @@ const OtpVerifyPage = ({verified}) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `${apiUrl}/api/verifyotp`,
+        `${apiUrl}/verifyotp`,
         { id: email, otp },
         {
           headers: {
@@ -51,7 +51,7 @@ const OtpVerifyPage = ({verified}) => {
   const handleResendOtp = async () => {
     try {
       const resp =await axios.post(
-        `${apiUrl}/api/auth/resend-otp`,
+        `${apiUrl}/auth/resend-otp`,
         { email: email },
         {
           headers: {

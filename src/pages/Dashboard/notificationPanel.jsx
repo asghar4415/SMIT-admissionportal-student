@@ -51,7 +51,7 @@ const NotificationPanel = () => {
   useEffect(() => {
     const getNotifications = async () => {
       try {
-        const resp = await axios.get(`${apiUrl}/api/notification/${stdregion}`);
+        const resp = await axios.get(`${apiUrl}/notification/${stdregion}`);
         setNotifications(resp.data);
       } catch (err) {
       }

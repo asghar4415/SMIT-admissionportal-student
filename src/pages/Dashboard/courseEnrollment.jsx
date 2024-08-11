@@ -78,7 +78,7 @@ const CourseEnrollment = () => {
   useEffect(() => {
     const getCourses = async () => {
       try {
-        const resp = await axios.get(`${apiUrl}/api/course/view`);
+        const resp = await axios.get(`${apiUrl}/course/view`);
         const courses = [];
 
         for (let i = 0; i < resp.data.length; i++) {
@@ -135,7 +135,7 @@ const CourseEnrollment = () => {
       stdDetails.address 
     ) {
       try {
-        const resp = await axios.post(`${apiUrl}/api/course/enroll`, {
+        const resp = await axios.post(`${apiUrl}/course/enroll`, {
           cnic: stdDetails.cnic,
           course_details: {
             course_id: expanded,

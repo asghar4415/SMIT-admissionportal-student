@@ -51,7 +51,7 @@ const ImageUpload = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post(`${apiUrl}/api/uploadimage`, formData, {
+      const res = await axios.post(`${apiUrl}/uploadimage`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

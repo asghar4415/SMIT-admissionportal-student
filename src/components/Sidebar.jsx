@@ -28,7 +28,7 @@ if(window.location.pathname === "/notificationPanel"){
     const getNotifications = async () => {
       try {
 
-        const response = await axios.get(`${apiUrl}/api/getnotification/${cnic}`);
+        const response = await axios.get(`${apiUrl}/getnotification/${cnic}`);
         setNotifications(response.data);
       } catch (err) {
       }

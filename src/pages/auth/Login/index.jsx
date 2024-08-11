@@ -54,9 +54,7 @@ const Login = () => {
 
     try {
 
-      const loginRsp = await axios.post(`${apiUrl}/api/auth/login`, formData);
-
-
+      const loginRsp = await axios.post(`${apiUrl}/auth/login`, formData);
       localStorage.setItem("token", loginRsp.data.token);
       toast.success(`Welcome`, {
         position: "top-right",
