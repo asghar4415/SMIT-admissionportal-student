@@ -227,9 +227,6 @@ const Login = () => {
           }
         
         }>
-          <Link to="" className="forgot-1 ">
-            Forgot password?
-          </Link>
           <Link to="/auth/register" className="signup-1">
             Sign up for an account
           </Link>
