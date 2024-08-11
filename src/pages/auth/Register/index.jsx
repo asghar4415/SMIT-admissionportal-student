@@ -10,6 +10,9 @@ import OrbitingText from "../../../components/OrbitingText";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const Register = () => {
+
+
+
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -28,6 +31,14 @@ const Register = () => {
     cnic: "",
   });
 
+  
+  useEffect(() => {
+    if(window.location.reload())
+    {
+      navigate("/auth/register");
+    }
+  }, []);
+  
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
