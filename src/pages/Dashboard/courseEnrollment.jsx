@@ -5,27 +5,18 @@ import "../../App.css";
 import axios from "axios";
 import { useDispatch, useSelector } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
-
 import { ToastContainer, toast } from 'react-toastify';
-import {updateRegion, updateEmail, updateImgUrl, updateName } from "../../state/userSlice";
+import { updateRegion, updateEmail, updateImgUrl, updateName } from "../../state/userSlice";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-
-
 const CourseEnrollment = () => {
   const [expanded, setExpanded] = useState(null);
-
   const dispatch = useDispatch();
-  
-
-  
-
 
   const handleExpand = (id) => {
     setExpanded(expanded === id ? null : id);
   };
-
 
   const token = localStorage.getItem("token");
   const cnic = JSON.parse(atob(token.split(".")[1])).cnic;
@@ -66,7 +57,6 @@ const CourseEnrollment = () => {
           img: resp.data.img
         });
 
-
         setStdRegion(resp.data.city.toLowerCase());
 
         dispatch(updateName(resp.data.fullName));
@@ -74,6 +64,7 @@ const CourseEnrollment = () => {
         dispatch(updateImgUrl(resp.data.img));
         dispatch(updateRegion(resp.data.city));
       } catch (error) {
+        console.error("Error fetching user data", error);
       }
     };
     getRegion();
@@ -83,27 +74,22 @@ const CourseEnrollment = () => {
     const colors = ['red', 'blue', 'green', 'pink'];
     return colors[Math.floor(Math.random() * colors.length)];
   };
-  
 
   useEffect(() => {
-
     const getCourses = async () => {
       try {
         const resp = await axios.get(`${apiUrl}/api/course/view`);
         const courses = [];
-  
+
         for (let i = 0; i < resp.data.length; i++) {
           const coursename = resp.data[i].course_name;
           const batch = resp.data[i].batch;
 
           for (let j = 0; j < batch.length; j++) {
             const batch_region = batch[j].region.toLowerCase();
-            
 
             if (batch_region === stdregion) {
-  
               const deadline = new Date(batch[j].deadline);
-              
               const today_date = new Date();
               if (today_date < deadline) {
                 courses.push({
@@ -111,7 +97,7 @@ const CourseEnrollment = () => {
                   title: coursename,
                   region: batch[j].region,
                   deadline: batch[j].deadline,
-                  description: [ "Batch No: " + batch[j].batch_id , "Region: " + batch[j].region, "Test Date: " + batch[j].test_date ],
+                  description: ["Batch No: " + batch[j].batch_id, "Region: " + batch[j].region, "Test Date: " + batch[j].test_date],
                   color: `bg-${getColor()}-100`
                 });
               }
@@ -121,9 +107,10 @@ const CourseEnrollment = () => {
 
         setCourseDetails(courses);
       } catch (error) {
+        console.error("Error fetching courses", error);
       }
     };
-  
+
     getCourses();
   }, [stdregion, apiUrl]);
 
@@ -132,9 +119,9 @@ const CourseEnrollment = () => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return date.toLocaleDateString(undefined, options);
   };
-  
 
   const handleCourseApply = async () => {
+    // console.log(stdDetails);
 
     if (
       stdDetails.fullName &&
@@ -145,42 +132,32 @@ const CourseEnrollment = () => {
       stdDetails.lastQualification &&
       stdDetails.date_of_birth &&
       stdDetails.gender &&
-      stdDetails.address &&
-      stdDetails.img &&
-      stdDetails.laptop
+      stdDetails.address 
     ) {
-      try{
-
+      try {
         const resp = await axios.post(`${apiUrl}/api/course/enroll`, {
           cnic: stdDetails.cnic,
-          course_details:
-          {
+          course_details: {
             course_id: expanded,
             course_name: courseDetails.find((course) => course.id === expanded).title,
             region: stdregion,
             batch_id: expanded,
             test_date: courseDetails.find((course) => course.id === expanded).description[2].split(":")[1].trim(),
             deadline: courseDetails.find((course) => course.id === expanded).deadline
-
           },
         });
 
         toast.success(resp.data.message);
-
-          
-
+        alert(resp.data.message);
+      } catch (error) {
+        toast.error(error.response.data.error || "An error occurred");
+        alert(error.response.data.error || "An error occurred");
       }
-      catch (error) {
-        toast.error(error.response.data.error);
-      }
-
-
     } else {
+      alert("Complete Your Profile First");
       toast.error("Complete Your Profile First");
     }
   };
-  
-
 
 
   return (
