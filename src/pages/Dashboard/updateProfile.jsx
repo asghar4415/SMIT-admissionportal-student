@@ -274,6 +274,7 @@ const [showOtpPage, setShowOtpPage] = useState(false);
   const handleSubmit = async () => {
     setLoading(true);
     if (otpverified === false) {
+      
       toast.error("Please verify your email first");
       otpVerification();
      

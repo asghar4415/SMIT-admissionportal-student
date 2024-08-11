@@ -69,7 +69,7 @@ const OtpVerifyPage = ({verified}) => {
   };
 
   const handleOtpComponent = () => {
-    window.location.reload()
+    navigate("/")
   }
 
 
